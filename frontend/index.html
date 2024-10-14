@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Ai Blog Generator</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body class="flex flex-col min-h-screen bg-gray-100 font-sans antialised">
     <!-- Navbar  -->
@@ -47,7 +48,7 @@
               type="url"
               id="youtubeLink"
               placeholder="Paste YouTube Link..."
-              class="flex-grow p-2 border border-blue-400 rounded-l-md"
+              class="flex-grow p-2 border border-blue-400 rounded-l-md max-w-md"
             />
             <button
               id="generateBlogButton"
@@ -56,11 +57,25 @@
               Generate
             </button>
           </div>
-
-          <!-- generated blog display -->
-          <section></section>
         </div>
+        <!-- section for loading circle -->
+        <div style="display: none" id="loading-circle" class="load"></div>
+
+        <!-- generated blog display -->
+        <section class="mt-10 flex-grow">
+          <h2 class="text-xl mb-4 font-semibold">Generated Blog Article</h2>
+          <div id="blogContent" class="mt-2 text-gray-700 space-y-4"></div>
+        </section>
       </div>
     </div>
+
+    <footer class="text-center p-4 mt-6 text-black">
+      Powered by
+      <a
+        href="https://github.com/shersheryar"
+        class="font-semibold hover:underline"
+        >Sheryar Sher</a
+      >
+    </footer>
   </body>
 </html>
