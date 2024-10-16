@@ -1,0 +1,1 @@
+in templates folder that where all of out html files will be located.
