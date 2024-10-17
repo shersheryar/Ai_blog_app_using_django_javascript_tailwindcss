@@ -25,6 +25,12 @@
         <form class="space-y-4" action="" method="post">
           <!-- this token is use for prevent   CSRF attack   -->
           {% csrf_token %}
+          <!-- error message -->
+          {% if error_message %}
+          <div align="center" style="color: red">
+            <h2>{{error_message}}</h2>
+          </div>
+          {% endif %}
           <h2 class="text-xl font-bold">Signup</h2>
           <!-- user name -->
           <div>
