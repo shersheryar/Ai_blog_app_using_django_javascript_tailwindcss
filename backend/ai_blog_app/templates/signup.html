@@ -13,8 +13,8 @@
         <h1 class="text-3xl font-bold">Ai Blog Generator</h1>
       </div>
       <div>
-        <a href="#" class="text-white hover:underline">Login</a>
-        <a href="#" class="text-white hover:underline">Signup</a>
+        <a href="login" class="text-white hover:underline">Login</a>
+        <a href="signup" class="text-white hover:underline">Signup</a>
       </div>
     </nav>
     <br />
@@ -22,7 +22,9 @@
     <div class="flex items-center justify-center h-screen">
       <div class="bg-white p-8 shadow-md rounded max-w-md w-full">
         <!-- login form  -->
-        <form class="space-y-4" action="">
+        <form class="space-y-4" action="" method="post">
+          <!-- this token is use for prevent   CSRF attack   -->
+          {% csrf_token %}
           <h2 class="text-xl font-bold">Signup</h2>
           <!-- user name -->
           <div>
