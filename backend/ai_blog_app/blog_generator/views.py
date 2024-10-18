@@ -14,6 +14,22 @@ def index(request):
 
 
 def user_login(request):
+    #  This is the if statement that checks if the request method is POST
+    if request.method == 'POST':
+        #  This is the username and password that is gotten from the form
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+    # This is the authenticate function that checks if the user exists
+        user = authenticate(request, username=username, password=password)
+        #  This is the if statement that checks if the user is not None
+        if user is not None:
+            #  This is the login function that logs in the user
+            login(request, user)
+            #
+            return redirect('/')
+        else:
+            error_message = 'Invalid credentials'
+            return render(request, 'login.html', {'error_message': error_message})
     return render(request, 'login.html')
 
 #  This is the view for the signup page
