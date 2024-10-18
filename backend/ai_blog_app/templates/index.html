@@ -81,7 +81,42 @@
       >
     </footer>
     <script>
-      
+      // add event listener to the generate blog button
+      document.getElementById("generateBlogButton").addEventListener("click",async () => {
+        const youtubeLink = document.getElementById("youtubeLink").value;
+        const blogContent = document.getElementById("blogContent");
+        const loadingCircle = document.getElementById("loading-circle");
+
+        if(youtubeLink){
+          // show loading circle
+          loadingCircle.style.display = "block";
+          loadingCircle.classList.remove("hidden");
+          blogContent.innerHTML = ""; // clear previous content
+
+          const endpointUrl = '/generate_blog';
+          try{
+            const reponse = await fetch(endpointUrl, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({youtubeLink}),
+            });
+            const data = await response.json();
+            blogContent.innerHTML = data.blogContent;
+            loadingCircle.classList.add("hidden"); // hide loading circle after content is loaded
+
+          }catch (error) {
+            console.error('Error:', error);
+            alert('An error occured while generating the blog article');
+            loadingCircle.classList.add("hidden"); // hide loading circle after content is loaded
+          }
+          loadingCircle.style.display = "none"; // hide loading circle
+        }else{
+          alert('Please enter a valid YouTube link');
+
+
+        }
     </script>
   </body>
 </html>
