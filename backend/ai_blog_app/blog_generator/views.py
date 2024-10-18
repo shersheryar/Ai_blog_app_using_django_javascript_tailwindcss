@@ -24,9 +24,10 @@ def user_signup(request):
         username = request.POST.get('username')
         email = request.POST.get('email')
         password = request.POST.get('password')
-        repeatpassword = request.POST.get('repeatpassword')
+        repeat_password = request.POST.get('repeat_password')
 
-        if password == repeatpassword:
+        print(username, email, password, repeat_password)
+        if password == repeat_password:
             if User.objects.filter(username=username).exists():
                 error_message = 'Username already exists'
                 return render(request, 'signup.html', {'error_message': error_message})
