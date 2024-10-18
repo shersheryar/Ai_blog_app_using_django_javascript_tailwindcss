@@ -5,9 +5,7 @@ from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
-
-#  This is the view for the index page
-
+# =============================login, logut and signup views=============================
 @login_required
 def index(request):
     return render(request, 'index.html')
@@ -72,3 +70,11 @@ def user_signup(request):
 def user_logout(request):
     logout(request)
     return redirect('/')
+# ================================================================================================
+# =============================blog generation view===============================================
+#  This is the view for the blog generation page
+
+
+def generate_blog(request):
+    return render(request, 'generate_blog.html')
+# ================================================================================================
