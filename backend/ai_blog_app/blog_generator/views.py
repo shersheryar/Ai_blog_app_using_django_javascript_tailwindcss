@@ -1,10 +1,15 @@
-import json
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
+from django.conf import settings
 from django.http import JsonResponse
+from pytube import YouTube
+import assemblyai as aai
+import openai
+import json
+import os
 
 
 # Create your views here.
@@ -74,6 +79,39 @@ def user_logout(request):
     logout(request)
     return redirect('/')
 # ================================================================================================
+ # ===================getting the titile of youtube video=========================
+
+
+def yt_title(link):
+    yt = YouTube(link)
+    return yt.title
+# ======================getting transcript file of the youtube video==================
+
+
+def download_audio(link):
+    yt = YouTube(link)
+    audio = yt.streams.filter(only_audio=True).first()
+    out_file = audio.download(output_path=settings.MEDIA_ROOT)
+    base, ext = os.path.splitext(out_file)
+    new_file = base + '.mp3'
+    os.rename(out_file, new_file)
+    return new_file
+
+
+def get_transcript(link):
+    audio_file = download_audio(link)
+    aai.settings.api_key = "37627fdab64a4848b60a2a53cfad31f7"
+    transcriber = aai.Transcriber()
+    transcript = transcriber.transcribe(audio_file)
+    if not transcript:
+        return JsonResponse({'error': 'Transcription failed'}, status=500)
+
+    return transcript.text
+# =============================Generate blog from transcription=========================
+
+
+def generate_blog_from_transcription(transcript):
+    pass
 # =============================blog generation view===============================================
 #  This is the view for the blog generation page
 
@@ -84,14 +122,15 @@ def generate_blog(request):
         try:
             data = json.loads(request.body)
             yt_link = data['link']
-            # print(yt_link) 
-            return JsonResponse({'link': yt_link})
-        except (json.JSONDecodeError, KeyError):
+            # print(yt_link)
+            # return JsonResponse({'content': yt_link})
+        except (KeyError, json.JSONDecodeError):
             return JsonResponse({'error': 'Invalid data sent'}, status=400)
-        # // get title of the video
 
+        # get title of the video
+            title = yt_title(yt_link)
         # get the transcript
-
+            transcript = get_transcript(yt_link)
         # use openai  to generate the blog
 
         #  save the blog to the database
@@ -100,6 +139,7 @@ def generate_blog(request):
 
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=405)
+    # return render(request, 'generate_blog.html')
 
-    return render(request, 'generate_blog.html')
+
 # ================================================================================================

@@ -90,28 +90,28 @@
 
           if (youtubeLink) {
             // show loading circle
-            loadingCircle.style.display = "block";
+            document.getElementById("loading-circle").style.display = "block";
             loadingCircle.classList.remove("hidden");
             blogContent.innerHTML = ""; // clear previous content
 
-            const endpointUrl = "/generate_blog";
+            const endpointUrl = "/generate-blog";
             try {
               const response = await fetch(endpointUrl, {
                 method: "POST",
                 headers: {
                   "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ youtubeLink }),
+                body: JSON.stringify({ link: youtubeLink }),
               });
               const data = await response.json();
               blogContent.innerHTML = data.blogContent;
               loadingCircle.classList.add("hidden"); // hide loading circle after content is loaded
             } catch (error) {
-              console.error("Error:", error);
-              alert("An error occured while generating the blog article");
+              console.error("Error occurred:", error);
+              alert("An error occurred while generating the blog article");
               loadingCircle.classList.add("hidden"); // hide loading circle after content is loaded
             }
-            loadingCircle.style.display = "none"; // hide loading circle
+            document.getElementById("loading-circle").style.display = "none";
           } else {
             alert("Please enter a valid YouTube link");
           }
