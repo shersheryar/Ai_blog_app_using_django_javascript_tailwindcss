@@ -100,8 +100,7 @@ def download_audio(link):
 
 def get_transcript(link):
     audio_file = download_audio(link)
-    # add your assemblyai api key
-    aai.settings.api_key = " "
+    aai.settings.api_key = "37627fdab64a4848b60a2a53cfad31f7"
     transcriber = aai.Transcriber()
     transcript = transcriber.transcribe(audio_file)
     if not transcript:
