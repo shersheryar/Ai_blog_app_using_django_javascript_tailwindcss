@@ -12,6 +12,7 @@ import openai
 import json
 import os
 from pytube.exceptions import PytubeError
+from .models import BlogPost
 
 
 # Create your views here.
@@ -188,32 +189,6 @@ def generate_blog_from_transcription(transcription):
     # =============================blog generation view===============================================
     #  This is the view for the blog generation page
 
-    # @csrf_exempt
-    # def generate_blog(request):
-    #     if request.method == 'POST':
-    #         try:
-    #             # Parse the request body to get the YouTube link
-    #             body = json.loads(request.body)
-    #             youtube_link = body.get('link')
-
-    #             if not youtube_link:
-    #                 return JsonResponse({'error': 'No YouTube link provided'}, status=400)
-
-    #             # Dummy blog generation logic for now
-    #             # You should replace this with actual logic to generate content from the YouTube video
-    #             blog_content = f"Generated blog content for the video at: {
-    #                 youtube_link}"
-
-    #             # Return the generated blog content
-    #             return JsonResponse({'blogContent': blog_content})
-
-    #
-
-    #     # Return a Method Not Allowed response if the request method is not POST
-    #     return JsonResponse({'error': 'Method not allowed'}, status=405)
-
-    # ===============================================================
-
 
 @ csrf_exempt
 def generate_blog(request):
@@ -237,18 +212,20 @@ def generate_blog(request):
         transcript = get_transcript(yt_link)
         if not transcript:
             return JsonResponse({'error': 'invalid response'}, status=400)
-        # print(transcript)
+
         # use openai  to generate the blog
         blog = generate_blog_from_transcription(transcript)
         if not blog:
             return JsonResponse({'error': 'failed to generate blog article'}, status=500)
         #  save the blog to the database
-
+        new_blog_article = BlogPost.objects.create(
+            # Save the blog to the database
+            user=request.user, youtube_title=title, youtube_link=yt_link, generated_blog=blog)
+        new_blog_article.save()
         # return the blog as a response
         return JsonResponse({'content': blog})
 
     else:
-        print("in herererere")
         return JsonResponse({'error': 'Invalid request method'}, status=405)
     # return render(request, 'generate_blog.html')
 
