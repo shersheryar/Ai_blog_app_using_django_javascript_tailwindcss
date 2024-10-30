@@ -7,100 +7,72 @@ This project is an AI-powered blog generator that converts YouTube video content
 ```
 .gitignore
 .vscode/
+    settings.json
+backend/
     ai_blog_app/
+        ai_blog_app/
         blog_generator/
+        db.sqlite3
         manage.py
+        media/
         static/
-        all-blogs.html
+        templates/
+notes.txt
+frontend/
+    all-blogs.html
+    blog-details.html
     index.html
+    login.html
     signup.html
+    style.css
+venv/
     bin/
+    etc/
     include/
+    lib/
     lib64
+    pyvenv.cfg
     share/
 ```
 
 ## Prerequisites
 
 - Python 3.8+
-- Node.js (for frontend development)
 - Virtualenv (optional but recommended)
 
 ## Setup Instructions
 
 ### Backend Setup
 
-1. **Clone the repository:**
-
-   ```sh
-   git clone <repository-url>
-   cd <repository-directory>/backend/ai_blog_app
-   ```
-
-2. **Create and activate a virtual environment:**
+1. **Create and activate a virtual environment:**
 
    ```sh
    python -m venv venv
    source venv/bin/activate  # On Windows use `venv\Scripts\activate`
    ```
 
-3. **Install the required Python packages:**
+2. **Install the required Python packages:**
 
    ```sh
    pip install -r requirements.txt
    ```
 
-4. **Apply database migrations:**
+3. **Apply database migrations:**
 
    ```sh
    python manage.py migrate
    ```
 
-5. **Create a superuser:**
+4. **Create a superuser:**
 
    ```sh
    python manage.py createsuperuser
    ```
 
-6. **Run the development server:**
+5. **Run the development server:**
 
    ```sh
    python manage.py runserver
-   ```
-
-### Frontend Setup
-
-1. **Navigate to the frontend directory:**
-
-   ```sh
-   cd <repository-directory>/frontend
-   ```
-
-2. **Install Tailwind CSS:**
-
-   ```sh
-   npm install -D tailwindcss
-   ```
-
-3. **Create a Tailwind configuration file:**
-
-   ```sh
-   npx tailwindcss init
-   ```
-
-4. **Add Tailwind to your CSS:**
-
-   ```css
-   /* In your CSS file */
-   @tailwind base;
-   @tailwind components;
-   @tailwind utilities;
-   ```
-
-5. **Build your CSS:**
-
-   ```sh
-   npx tailwindcss -i ./src/input.css -o ./dist/output.css --watch
    ```
 
 ## Project Details
