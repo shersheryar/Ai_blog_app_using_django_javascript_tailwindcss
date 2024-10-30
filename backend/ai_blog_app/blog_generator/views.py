@@ -138,43 +138,10 @@ def get_transcript(link):
     return transcript.text
 
 
-# def get_transcript(link):
-#     # Attempt to download the audio file
-#     audio_file = download_audio(link)
-#     if audio_file is None:
-#         return JsonResponse({'error': 'Audio download failed'}, status=500)
-
-#     # Set the API key for AssemblyAI
-#     aai.settings.api_key = "37627fdab64a4848b60a2a53cfad31f7"
-#     transcriber = aai.Transcriber()
-
-#     try:
-#         # Attempt to transcribe the audio file
-#         transcript = transcriber.transcribe(audio_file)
-
-#         # Check if the transcription was successful
-#         if not transcript:
-#             return JsonResponse({'error': 'Transcription failed'}, status=500)
-
-#         # Return the transcribed text
-#         return transcript.text
-
-#     except aai.types.TranscriptError as e:
-#         # Handle specific transcription errors
-#         print(f"Transcription failed: {e}")
-#         return JsonResponse({'error': 'Transcription failed', 'details': str(e)}, status=500)
-#     except Exception as e:
-#         # Handle any other exceptions that might occur
-#         print(f"An unexpected error occurred: {e}")
-#         return JsonResponse({'error': 'An unexpected error occurred', 'details': str(e)}, status=500)
-
-
 # =============================Generate blog from transcription=========================
-
-
 def generate_blog_from_transcription(transcription):
 
-    openai.api_key = "add ur own key"
+    openai.api_key = "write ur own"
 
     messages = [
         {"role": "user", "content": f"Based on the following transcript from a YouTube video, write a comprehensive blog article. Write it based on the transcript, but don't make it look like a YouTube video; make it look like a proper blog article: \n\n{transcription}\n\nArticle:"}
@@ -230,3 +197,9 @@ def generate_blog(request):
     # return render(request, 'generate_blog.html')
 
     # ================================================================================================
+
+
+#  This is the view for the blog list page
+def blog_list(request):
+    blog_articles = BlogPost.objects.filter(user=request.user)
+    return render(request, 'all-blogs.html', {'blog_articles': blog_articles})
